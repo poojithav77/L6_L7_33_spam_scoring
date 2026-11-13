@@ -82,3 +82,28 @@ def test_noisy_inbox_status():
 def test_healthy_inbox_status():
     assert inbox_status({"spam": 1, "suspicious": 3, "clean": 6}) == "healthy"
 
+# Additional branch boundary tests
+
+def test_link_count_exactly_one():
+    assert score_message("hello", False, 1) == 1
+
+
+def test_link_count_exactly_three():
+    assert score_message("hello", False, 3) == 1
+
+
+def test_classify_boundary_below_suspicious():
+    assert classify(3) == "clean"
+
+
+def test_classify_boundary_below_spam():
+    assert classify(7) == "suspicious"
+
+
+def test_inbox_status_exactly_fifty_percent_spam():
+    assert inbox_status({"spam": 5, "suspicious": 3, "clean": 2}) == "noisy"
+
+
+def test_inbox_status_exactly_twenty_percent_spam():
+    assert inbox_status({"spam": 2, "suspicious": 3, "clean": 5}) == "healthy"
+
